@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-
+#include <stdlib.h>
 // Bài 1: Tính học lực
 void tinhHocLuc() {
     float dtb;
@@ -43,7 +43,6 @@ void giaiPTBacHai() {
     scanf("%f%f%f", &a, &b, &c);
 
     if (a == 0) {
-        // Giải như phương trình bậc nhất
         if (b == 0) {
             if (c == 0)
                 printf("Phuong trinh vo so nghiem\n");
@@ -70,26 +69,50 @@ void giaiPTBacHai() {
     }
 }
 
+// Bài 4: Tính tiền điện theo bậc
+void tinhTienDien() {
+    float soDien, tien = 0;
+    printf("Nhap so dien tieu thu (kWh): ");
+    scanf("%f", &soDien);
+
+    if (soDien <= 50)
+        tien = soDien * 1.678;
+    else if (soDien <= 100)
+        tien = 50 * 1.678 + (soDien - 50) * 1.734;
+    else if (soDien <= 200)
+        tien = 50 * 1.678 + 50 * 1.734 + (soDien - 100) * 2.014;
+    else if (soDien <= 300)
+        tien = 50 * 1.678 + 50 * 1.734 + 100 * 2.014 + (soDien - 200) * 2.536;
+    else if (soDien <= 400)
+        tien = 50 * 1.678 + 50 * 1.734 + 100 * 2.014 + 100 * 2.536 + (soDien - 300) * 2.834;
+    else
+        tien = 50 * 1.678 + 50 * 1.734 + 100 * 2.014 + 100 * 2.536 + 100 * 2.834 + (soDien - 400) * 2.927;
+
+    printf("Tien dien phai tra: %.2f VND\n", tien);
+}
+
 // Menu chương trình
 int main() {
-    int chon;
+    int luachon;
     do {
-        printf("\n===== MENU CHUONG TRINH =====\n");
-        printf("1. Tinh hoc luc\n");
-        printf("2. Giai phuong trinh bac nhat\n");
-        printf("3. Giai phuong trinh bac hai\n");
+        printf("\n Chọn chương trình tính toán\n");
+        printf("1. Tính học lực\n");
+        printf("2. Giải phương trình bậc nhất\n");
+        printf("3. Giải phương trình bậc hai\n");
+        printf("4. Tính tiền điện\n");
         printf("0. Thoat\n");
-        printf("Chon chuc nang: ");
-        scanf("%d", &chon);
+        printf("Mời bạn nhập lựa chọn: ");
+        scanf("%d", &luachon);
 
-        switch (chon) {
+        switch (luachon) {
             case 1: tinhHocLuc(); break;
             case 2: giaiPTBacNhat(); break;
             case 3: giaiPTBacHai(); break;
-            case 0: printf("Tam biet!\n"); break;
+            case 4: tinhTienDien(); break;
+            case 0: printf("Chương trình kết thúc!\n"); break;
             default: printf("Lua chon khong hop le. Vui long chon lai.\n");
         }
-    } while (chon != 0);
+    } while (luachon != 0);
 
     return 0;
 }
