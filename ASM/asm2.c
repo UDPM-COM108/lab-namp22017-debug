@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
 void chucNang1() {
     int x;
     printf("Nhap so nguyen x: ");
@@ -84,17 +85,121 @@ void chucNang4() {
 
     printf("So tien dien phai tra: %.0f VND\n", total);
 }
+void chucNang5() {
+    int menhGia[] = {500, 200, 100, 50, 20, 10, 5, 2, 1};
+    int money;
+
+    printf("Nhap so tien can doi: ");
+    scanf("%d", &money);
+
+    for (int i = 0; i < 9; i++) {
+        int count = money / menhGia[i];
+        if (count > 0) {
+            printf("%d to %d\n", count, menhGia[i]);
+            money %= menhGia[i];
+        }
+    }
+}
+
+void chucNang6() {
+    long long tienVay;
+    printf("Nhap so tien vay: ");
+    scanf("%lld", &tienVay);
+
+    long long gocThang = tienVay / 12;
+    long long conLai = tienVay;
+
+    printf("\nKy | Lai | Goc | Tong | Con lai\n");
+
+    for (int i = 1; i <= 12; i++) {
+        long long lai = conLai * 5 / 100;
+        long long tong = lai + gocThang;
+        conLai -= gocThang;
+
+        printf("%2d | %lld | %lld | %lld | %lld\n", i, lai, gocThang, tong, conLai);
+    }
+}
+
+struct SinhVien {
+    char ten[50];
+    double diem;
+    char hocLuc[20];
+};
+
+void xepHocLuc(struct SinhVien *sv) {
+    if (sv->diem >= 9) strcpy(sv->hocLuc, "Xuat sac");
+    else if (sv->diem >= 8) strcpy(sv->hocLuc, "Gioi");
+    else if (sv->diem >= 6.5) strcpy(sv->hocLuc, "Kha");
+    else if (sv->diem >= 5) strcpy(sv->hocLuc, "Trung binh");
+    else strcpy(sv->hocLuc, "Yeu");
+}
+
+void chucNang7() { //là chức năng 8 của bài asm
+    int n;
+    printf("Nhap so sinh vien: ");
+    scanf("%d", &n);
+
+    struct SinhVien sv[n];
+    getchar();
+
+    for (int i = 0; i < n; i++) {
+        printf("Nhap ten: ");
+        fgets(sv[i].ten, 50, stdin);
+        sv[i].ten[strcspn(sv[i].ten, "\n")] = '\0';
+
+        printf("Nhap diem: ");
+        scanf("%lf", &sv[i].diem);
+        getchar();
+
+        xepHocLuc(&sv[i]);
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (sv[i].diem < sv[j].diem) {
+                struct SinhVien tmp = sv[i];
+                sv[i] = sv[j];
+                sv[j] = tmp;
+            }
+        }
+    }
+
+    printf("Danh sach sau khi sap xep:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s - %.2lf - %s\n", sv[i].ten, sv[i].diem, sv[i].hocLuc);
+    }
+}
+
+void chucNang8() { //là chức năng 10 của bài asm
+    float a, b, c, d;
+
+    printf("Nhap phan so 1 (a b): ");
+    scanf("%f %f", &a, &b);
+
+    printf("Nhap phan so 2 (c d): ");
+    scanf("%f %f", &c, &d);
+
+    printf("Tong = %.2f\n", a/b + c/d);
+    printf("Hieu = %.2f\n", a/b - c/d);
+    printf("Tich = %.2f\n", (a/b) * (c/d));
+    printf("Thuong = %.2f\n", (a/b) / (c/d));
+}
 
 int main() {
     int choice;
 
     do {
-        printf("\nMenu\n");
+        printf("\nMENU\n");
         printf("1. Kiem tra so nguyen\n");
-        printf("2. Tim UCLN - BCNN\n");
+        printf("2. Tim UCLN & BCNN\n");
         printf("3. Tinh tien Karaoke\n");
         printf("4. Tinh tien dien\n");
+        printf("5. Doi tien\n");
+        printf("6. Tinh tien vay 12 thang\n");
+        printf("7. Sap xep thong tin sinh vien\n");
+        printf("8. Tinh toan phan so\n");
         printf("0. Thoat\n");
+
         printf("Lua chon: ");
         scanf("%d", &choice);
 
@@ -103,8 +208,12 @@ int main() {
             case 2: chucNang2(); break;
             case 3: chucNang3(); break;
             case 4: chucNang4(); break;
+            case 5: chucNang5(); break;
+            case 6: chucNang6(); break;
+            case 7: chucNang7(); break;
+            case 8: chucNang8(); break;
             case 0: break;
-            default: printf("Lua chon sai!\n");
+            default: printf("Lua chon khong hop le!\n");
         }
 
     } while (choice != 0);
